@@ -8,7 +8,10 @@ services:
       POSTGRES_PASSWORD: vacation_password
       POSTGRES_DB: vacation_planner
     ports:
-      - "5432:5432"
+      # Host port 5433 avoids clashing with a Postgres that some macOS users
+      # already run on the default 5432. Inside the container Postgres still
+      # listens on 5432, so app config uses 5433 only for the host-side URL.
+      - "5433:5432"
     volumes:
       - vacation_planner_postgres_data:/var/lib/postgresql/data
     healthcheck:
